@@ -109,18 +109,15 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 
 		th.start();
 	}
-	
-	public void stop() {
 
+	public void stop() {
 	}
 
 	public void destroy() {
-
 	}
-	public void run() {
-		
-		while (true) { //MAIN LOOP
 
+	public void run() {
+		while (true) { //MAIN LOOP
 			// delay calculation startpoint
 			long delay = System.nanoTime();
 			
@@ -154,14 +151,8 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 				if (delaysmall >= 0) {
 					if (delaysmall < 16) {
 						Thread.sleep(16 - delaysmall);
-						}
-					else
-					{
-						
 					}
-					
 				}
-
 			}
 
 			catch (InterruptedException ex) {
@@ -202,7 +193,7 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 			score2++;
 		else
 			return;
-		Console.print(score1+" zu "+score2, appletsize_x/2-60, 120, 30, 80);
+		Console.print(score1+" : "+score2, appletsize_x/2-60, 120, 30, 80);
 		Sound.stop_motor();
 		newRound();
 	}
@@ -223,7 +214,7 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 		int nextmode = mode;
 		while(nextmode==mode)
 		{
-			nextmode=(int) Math.round(Math.random()*15.49999);
+			nextmode=(int) Math.round(Math.random()*15.5);
 		}
 		mode = nextmode;
 		//mode=14;
@@ -276,7 +267,6 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 				break;
 			case 14:
 			case 15:
-				//printrandom();
 				Console.print("You don't know, Jack", appletsize_x/2-250, 80, 50, 50);
 				m14_randommode=true;
 				newMode();
@@ -308,7 +298,7 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 			{
 				double angle=car1.get_angle();
 				car1=new Car(600, 500, -angle);
-				car2= new Car(200, 500, angle);
+				car2=new Car(200, 500, angle);
 			}	
 		}
 		if(countdown>0) countdown--;
@@ -372,7 +362,6 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 					bumperpos+=frequency;
 					break;
 				}
-				
 			
 			//Console.print("spawn "+bumperpos);
 			}
@@ -389,7 +378,7 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 			if(i_car.get_x()>e.x-i_car.get_radius() && i_car.get_x()<e.x+e.width+i_car.get_radius())
 				if(i_car.get_y()>e.y-i_car.get_radius() && i_car.get_y()<e.y+e.height+i_car.get_radius())
 			{
-				Console.print("bounce!", i_car.get_x(), i_car.get_y()+cam_pos_y, 12, 50);
+				//Console.print("bounce!", i_car.get_x(), i_car.get_y()+cam_pos_y, 12, 50);
 				Sound.bounce();
 				box_m_x=e.x+e.width/2;
 				box_m_y=e.y+e.height/2;
@@ -490,23 +479,22 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 		{
 			
 			if(-e.y > cam_pos_y-appletsize_y ) //Teste ob es noch im bildschirm ist
-				{
+			{
 				g.drawImage(i_bumper, e.x, e.y+cam_pos_y, e.width, e.height, this);
 				
 				if(mode==12 && e.get_time()!=0)
-					{
-						
-						int i=e.get_time();
-						i--;
-						e.set_time(i);
-						
-						if(i==1) 
-							{
-							list.remove(e);
-							Console.print("pop!",e.x+e.width/2-8, e.y+e.height/2-2+cam_pos_y,12,50);
-							}
-					}
+				{
+					int i=e.get_time();
+					i--;
+					e.set_time(i);
+					
+					if(i==1) 
+						{
+						list.remove(e);
+						Console.print("pop!",e.x+e.width/2-8, e.y+e.height/2-2+cam_pos_y,12,50);
+						}
 				}
+			}
 			// g.drawString(""+e.y, e.x, e.y+cam_pos_y+20); //Debug, zeichen position
 			else
 			{
@@ -526,11 +514,7 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 		{
 			switch(arg0.getKeyChar()) {
 			case 'w':
-				if(mode!=1) 
-				{car1.goForward(); 
-
-						
-				}
+				if(mode!=1) car1.goForward(); 
 				else car1.goBrake();
 				break;
 			case 'a':
@@ -541,32 +525,12 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 				if(mode!=1) car1.goBrake();
 				else car1.goForward();
 				break;
-			case 'b':
-				long a=0; 
-				long b=0;
-				int c=0;
-				for(long i=0; i<1000000; i++)
-				{
-					c=(int) (Math.random()*10.499999);
-					if(c==10) b+=10;
-					a+=c;
-				}
-				Console.print("b/a: "+((double)b/(double)a) );
-				break;
 			case 'd':
 				if(mode==7) car1.steerLeft();
-				else 
-					{
-					if(mode!=6) car1.steerRight();
-					}
+				else if(mode!=6) car1.steerRight();
 				break;
 			case 'i':
-				if(mode!=1) 
-					{
-					car2.goForward();
-					
-						
-					}
+				if(mode!=1) car2.goForward();
 				else car2.goBrake();
 				break;
 			case 'j':
@@ -579,10 +543,7 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 				break;
 			case 'l':
 				if(mode==7) car2.steerLeft();
-				else 
-					{
-					if(mode!=6) car2.steerRight();
-					}
+				else if(mode!=6) car2.steerRight();
 				break;
 			case 'h':
 				Sound.honk();
@@ -652,61 +613,5 @@ public class Quickgame extends Applet implements Runnable, KeyListener {
 
 		g.drawImage(dbImage, 0, 0, this);
 		//paint(g);
-	}
-
-public void printrandom()
-{
-	int nextprint=mode;
-	while(nextprint==mode)
-	{
-		nextprint=(int) Math.round(Math.random()*14.49999);
-	}
-	switch(nextprint) {
-	case 0:
-		Console.print("Standartmodus", appletsize_x/2-180, 80, 50, 50);
-		break;
-	case 1:
-		Console.print("Zuruck in die Zükunft", appletsize_x/2-250, 80, 50, 50);
-		break;
-	case 2:
-		Console.print("MAX Biong!", appletsize_x/2-140, 80, 50, 50);
-		break;
-	case 3:
-		Console.print("Eis am Steil", appletsize_x/2-140, 80, 50, 50);
-		break;
-	case 4:
-		Console.print("Wooho Cee Ya!", appletsize_x/2-180, 80, 50, 50);
-		break;
-	case 5:
-		Console.print("Doqqeltes Lottchen", appletsize_x/2-180, 80, 50, 50);
-		break;
-	case 6:
-		Console.print("Im Zweifel lniks!", appletsize_x/2-200, 80, 50, 50);
-		break;
-	case 7:
-		Console.print("Rehcts Nicht, sondern...!", appletsize_x/2-200, 80, 50, 50);
-		break;
-	case 8:
-		Console.print("... aber unesre Liebe nicht!", appletsize_x/2-220, 80, 50, 50);
-		break;
-	case 9:
-		Console.print("Wer bremst verleirt", appletsize_x/2-220, 80, 50, 50);
-		break;
-	case 10:
-		Console.print("the edler scrolls", appletsize_x/2-220, 80, 50, 50);
-		break;
-	case 11:
-		Console.print("Let's play a liltte game...", appletsize_x/2-280, 80, 50, 50);
-		break;
-	case 12:
-		Console.print("Brackbriker", appletsize_x/2-100, 80, 50, 50);
-		break;
-	case 13:
-		Console.print("Ballett der Aotus", appletsize_x/2-200, 80, 50, 50);
-		break;
-	case 14:
-			Console.print("You don't know, Jack", appletsize_x/2-250, 80, 50, 50);
-			break;
-		}
 	}
 }
